@@ -1,0 +1,46 @@
+Public Site: The "Green Gradient" Web3 portfolio people see.
+
+Admin Panel: A private page (/admin) where you can:
+
+Upload Certificate titles, issuing dates, and links.
+
+Upload Project details (Title, Tech Stack, Hackathon Win, and Image URLs).
+
+Database: Replit will use its built-in PostgreSQL or Object Storage to save your data so it doesn't disappear.
+
+The All-In-One Master Prompt
+Copy and paste the entire block below into Replit Agent after uploading your images:
+
+Role: Act as a Senior Full-Stack Engineer and UI/UX Designer.
+
+Goal: Create a dual-sided Web3 Developer platform consisting of a Public Portfolio and a Private Admin Dashboard.
+
+Part 1: The Design (Visual References Provided)
+
+Theme: Use the high-end green gradient palette from the uploaded images. Background should be deep forest greens with text in light mint (#DAF1DE).
+
+Public UI: Implement a bento-grid layout for projects and a list-style for certificates. Use Glassmorphism (backdrop-blur) on all cards.
+
+Typography: Use bold, oversized headers inspired by the "PORTFOLIO" reference image.
+
+Part 2: The Admin Dashboard (/admin)
+
+Create a password-protected (simple env-based password) admin route.
+
+Project Form: Build a form to input: Project Name, Hackathon Name/Placement, GitHub Link, Tech Stack (tags), and a field for an Image URL.
+
+Certificate Form: Build a form to input: Certificate Name, Issuing Organization, and Date.
+
+Persistence: Use Replit PostgreSQL to store these entries. When a form is submitted, the data must immediately appear on the Public Portfolio.
+
+Part 3: The Public Portfolio Features
+
+Hero Section: Large title with a "Connect Wallet" button (UI only) and a 3D-style glowing green element.
+
+Projects Section: Dynamically fetch projects from the database. Display them in the "Bento Box" grid. If a project has an image, show it; if not, show a sleek green placeholder.
+
+Certificates Section: A clean, vertical list or bar-style layout showing my verified credentials.
+
+Tech Stack: Next.js (App Router), Tailwind CSS, Framer Motion for animations, and Lucide React for icons.
+
+Mobile Optimization: Ensure the bento grid stacks beautifully on mobile devices.
