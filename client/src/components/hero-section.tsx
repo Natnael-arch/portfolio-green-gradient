@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 import { GlowingOrb } from "./glowing-orb";
 
 export function HeroSection() {
@@ -59,26 +60,25 @@ export function HeroSection() {
               transition={{ delay: 0.6, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <motion.button
-                whileHover={{ scale: 1.02 }}
+              <Button
+                size="lg"
                 onClick={() => {
                   document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-8 py-4 text-lg font-semibold rounded-lg bg-[#235347] hover:bg-[#163832] text-[#DAF1DE] border border-[#8EB69B]/30 transition-colors"
                 data-testid="button-view-projects"
               >
                 View Projects
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
                 onClick={() => {
                   document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-8 py-4 text-lg font-semibold rounded-lg border border-[#8EB69B]/30 text-[#DAF1DE] hover:bg-[#235347]/30 transition-colors"
                 data-testid="button-about-me"
               >
                 About Me
-              </motion.button>
+              </Button>
             </motion.div>
           </motion.div>
           

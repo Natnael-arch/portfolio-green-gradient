@@ -15,11 +15,12 @@ export function Header() {
       className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 py-4"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="glass-card rounded-full px-6 py-3 flex items-center justify-between">
+        <div className="glass-card rounded-full px-6 py-3 flex items-center justify-between gap-4">
           <Link href="/">
             <motion.span
               className="text-xl font-bold text-gradient cursor-pointer"
               whileHover={{ scale: 1.02 }}
+              data-testid="link-logo"
             >
               PORTFOLIO
             </motion.span>
@@ -27,17 +28,26 @@ export function Header() {
 
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/#projects">
-              <span className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer">
+              <span 
+                className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer"
+                data-testid="link-nav-projects"
+              >
                 Projects
               </span>
             </Link>
             <Link href="/#certificates">
-              <span className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer">
+              <span 
+                className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer"
+                data-testid="link-nav-certificates"
+              >
                 Certificates
               </span>
             </Link>
             <Link href="/#about">
-              <span className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer">
+              <span 
+                className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer"
+                data-testid="link-nav-about"
+              >
                 About
               </span>
             </Link>
@@ -49,7 +59,6 @@ export function Header() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-muted-foreground hover:text-[#8EB69B]"
                   data-testid="link-admin"
                 >
                   Admin
@@ -63,8 +72,8 @@ export function Header() {
               <div className="absolute -inset-1 bg-gradient-to-r from-[#8EB69B] to-[#235347] rounded-full opacity-0 group-hover:opacity-70 blur-md transition-opacity duration-300" />
               <Button
                 size="sm"
-                className="relative gap-2 rounded-full bg-[#235347] hover:bg-[#163832] border border-[#8EB69B]/30 group-hover:border-[#8EB69B]/60 transition-all"
-                data-testid="button-connect-wallet-header"
+                className="relative gap-2 rounded-full"
+                data-testid="button-connect-wallet"
               >
                 <Wallet className="w-4 h-4" />
                 <span className="hidden sm:inline">Connect Wallet</span>

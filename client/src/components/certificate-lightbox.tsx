@@ -40,8 +40,9 @@ export function CertificateLightbox({ certificate, isOpen, onClose }: Certificat
             <Button
               size="icon"
               variant="ghost"
-              className="absolute top-4 right-4 z-10 text-[#DAF1DE] hover:bg-[#235347]/50 rounded-full"
+              className="absolute top-4 right-4 z-10 rounded-full"
               onClick={onClose}
+              aria-label="Close lightbox"
               data-testid="button-close-lightbox"
             >
               <X className="w-5 h-5" />
@@ -53,6 +54,7 @@ export function CertificateLightbox({ certificate, isOpen, onClose }: Certificat
                   src={certificate.imageUrl}
                   alt={certificate.name}
                   className="w-full max-h-[70vh] object-contain bg-[#0B2B26]"
+                  data-testid="img-certificate"
                 />
               </div>
             ) : (
@@ -65,21 +67,36 @@ export function CertificateLightbox({ certificate, isOpen, onClose }: Certificat
             )}
 
             <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#DAF1DE] mb-2">
+              <h3 
+                className="text-2xl font-bold text-[#DAF1DE] mb-2"
+                data-testid="text-certificate-name"
+              >
                 {certificate.name}
               </h3>
-              <p className="text-[#8EB69B] mb-1">{certificate.issuingOrganization}</p>
-              <p className="text-muted-foreground text-sm mb-4">{certificate.issueDate}</p>
+              <p 
+                className="text-[#8EB69B] mb-1"
+                data-testid="text-certificate-org"
+              >
+                {certificate.issuingOrganization}
+              </p>
+              <p 
+                className="text-muted-foreground text-sm mb-4"
+                data-testid="text-certificate-date"
+              >
+                {certificate.issueDate}
+              </p>
 
               {certificate.link && (
                 <a
                   href={certificate.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#8EB69B]/10 text-[#8EB69B] text-sm font-medium hover:bg-[#8EB69B]/20 transition-colors"
+                  data-testid="link-verify-certificate"
                 >
-                  Verify Certificate
-                  <ExternalLink className="w-4 h-4" />
+                  <Button variant="secondary" size="sm" className="gap-2">
+                    Verify Certificate
+                    <ExternalLink className="w-4 h-4" />
+                  </Button>
                 </a>
               )}
             </div>

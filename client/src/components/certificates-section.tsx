@@ -68,15 +68,24 @@ export function CertificatesSection() {
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-lg md:text-xl font-semibold text-[#DAF1DE] group-hover:text-[#8EB69B] transition-colors truncate">
+                    <h3 
+                      className="text-lg md:text-xl font-semibold text-[#DAF1DE] group-hover:text-[#8EB69B] transition-colors truncate"
+                      data-testid={`text-cert-name-${cert.id}`}
+                    >
                       {cert.name}
                     </h3>
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1.5">
+                      <span 
+                        className="flex items-center gap-1.5"
+                        data-testid={`text-cert-org-${cert.id}`}
+                      >
                         <Building className="w-4 h-4 text-[#8EB69B]/70" />
                         {cert.issuingOrganization}
                       </span>
-                      <span className="flex items-center gap-1.5">
+                      <span 
+                        className="flex items-center gap-1.5"
+                        data-testid={`text-cert-date-${cert.id}`}
+                      >
                         <Calendar className="w-4 h-4 text-[#8EB69B]/70" />
                         {cert.issueDate}
                       </span>
@@ -86,7 +95,7 @@ export function CertificatesSection() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="flex-shrink-0 gap-2 text-[#8EB69B] hover:text-[#DAF1DE] hover:bg-[#8EB69B]/10"
+                    className="flex-shrink-0 gap-2"
                     onClick={() => setSelectedCertificate(cert)}
                     data-testid={`button-view-certificate-${cert.id}`}
                   >

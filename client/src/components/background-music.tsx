@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, VolumeX, Music, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,38 +13,55 @@ export function BackgroundMusic() {
   const [isMuted, setIsMuted] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hasAudio, setHasAudio] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  useEffect(() => {
-    audioRef.current = new Audio(playlist[currentTrack].src);
-    audioRef.current.loop = false;
-    audioRef.current.volume = 0.3;
-
-    const handleEnded = () => {
-      const nextTrack = (currentTrack + 1) % playlist.length;
-      setCurrentTrack(nextTrack);
-    };
-
-    audioRef.current.addEventListener("ended", handleEnded);
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener("ended", handleEnded);
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
+  const handleEnded = useCallback(() => {
+    const nextTrack = (currentTrack + 1) % playlist.length;
+    setCurrentTrack(nextTrack);
   }, [currentTrack]);
 
   useEffect(() => {
-    if (audioRef.current) {
+    const audio = new Audio();
+    audio.loop = false;
+    audio.volume = 0.3;
+    
+    const handleCanPlayThrough = () => {
+      setHasAudio(true);
+    };
+    
+    const handleError = () => {
+      setHasAudio(false);
+    };
+
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("canplaythrough", handleCanPlayThrough);
+    audio.addEventListener("error", handleError);
+    
+    audio.src = playlist[currentTrack].src;
+    audioRef.current = audio;
+
+    return () => {
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("canplaythrough", handleCanPlayThrough);
+      audio.removeEventListener("error", handleError);
+      audio.pause();
+      audio.src = "";
+    };
+  }, [currentTrack, handleEnded]);
+
+  useEffect(() => {
+    if (audioRef.current && hasAudio) {
       if (isPlaying) {
-        audioRef.current.play().catch(console.error);
+        audioRef.current.play().catch(() => {
+          setHasAudio(false);
+          setIsPlaying(false);
+        });
       } else {
         audioRef.current.pause();
       }
     }
-  }, [isPlaying, currentTrack]);
+  }, [isPlaying, hasAudio]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -53,12 +70,18 @@ export function BackgroundMusic() {
   }, [isMuted]);
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+    if (hasAudio) {
+      setIsPlaying(!isPlaying);
+    }
   };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
   };
+
+  if (!hasAudio) {
+    return null;
+  }
 
   return (
     <motion.div
@@ -102,8 +125,9 @@ export function BackgroundMusic() {
           <Button
             size="icon"
             variant="ghost"
-            className="w-9 h-9 rounded-full text-[#8EB69B] hover:text-[#DAF1DE] hover:bg-[#235347]/30"
+            className="rounded-full"
             onClick={togglePlay}
+            aria-label={isPlaying ? "Pause" : "Play"}
             data-testid="button-play-pause"
           >
             {isPlaying ? (
@@ -115,8 +139,9 @@ export function BackgroundMusic() {
           <Button
             size="icon"
             variant="ghost"
-            className="w-9 h-9 rounded-full text-[#8EB69B] hover:text-[#DAF1DE] hover:bg-[#235347]/30"
+            className="rounded-full"
             onClick={toggleMute}
+            aria-label={isMuted ? "Unmute" : "Mute"}
             data-testid="button-mute-toggle"
           >
             {isMuted ? (

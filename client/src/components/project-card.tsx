@@ -50,7 +50,7 @@ export function ProjectCard({ project, index, size = "medium" }: ProjectCardProp
         
         {project.hackathonPlacement && (
           <div className="absolute top-3 right-3">
-            <Badge className="bg-[#8EB69B] text-[#051F20] gap-1 font-semibold">
+            <Badge className="gap-1 font-semibold">
               <Trophy className="w-3 h-3" />
               {project.hackathonPlacement}
             </Badge>
@@ -72,16 +72,12 @@ export function ProjectCard({ project, index, size = "medium" }: ProjectCardProp
             <Badge
               key={i}
               variant="outline"
-              className="border-[#8EB69B]/30 text-[#8EB69B] text-xs"
             >
               {tech}
             </Badge>
           ))}
           {project.techStack.length > (size === "large" ? 6 : 4) && (
-            <Badge
-              variant="outline"
-              className="border-[#8EB69B]/30 text-[#8EB69B] text-xs"
-            >
+            <Badge variant="outline">
               +{project.techStack.length - (size === "large" ? 6 : 4)}
             </Badge>
           )}
@@ -95,10 +91,7 @@ export function ProjectCard({ project, index, size = "medium" }: ProjectCardProp
               rel="noopener noreferrer"
               data-testid={`link-live-${project.id}`}
             >
-              <Button
-                size="sm"
-                className="gap-2 bg-[#8EB69B] text-[#051F20] hover:bg-[#DAF1DE]"
-              >
+              <Button size="sm" className="gap-2">
                 <Globe className="w-3 h-3" />
                 View Live
               </Button>
@@ -109,12 +102,13 @@ export function ProjectCard({ project, index, size = "medium" }: ProjectCardProp
               href={project.githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors"
               data-testid={`link-github-${project.id}`}
             >
-              <Github className="w-4 h-4" />
-              GitHub
-              <ExternalLink className="w-3 h-3" />
+              <Button size="sm" variant="ghost" className="gap-2">
+                <Github className="w-4 h-4" />
+                GitHub
+                <ExternalLink className="w-3 h-3" />
+              </Button>
             </a>
           )}
         </div>
