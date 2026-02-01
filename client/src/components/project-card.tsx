@@ -1,0 +1,105 @@
+import { motion } from "framer-motion";
+import { ExternalLink, Github, Trophy } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import type { Project } from "@shared/schema";
+
+interface ProjectCardProps {
+  project: Project;
+  index: number;
+  size?: "large" | "medium" | "small";
+}
+
+export function ProjectCard({ project, index, size = "medium" }: ProjectCardProps) {
+  const sizeClasses = {
+    large: "col-span-2 row-span-2",
+    medium: "col-span-1 row-span-1",
+    small: "col-span-1 row-span-1",
+  };
+
+  const imageHeights = {
+    large: "h-48 md:h-64",
+    medium: "h-32 md:h-40",
+    small: "h-24 md:h-32",
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.6 }}
+      className={`${sizeClasses[size]} glass-card-hover rounded-xl overflow-hidden group`}
+      data-testid={`card-project-${project.id}`}
+    >
+      <div className={`relative ${imageHeights[size]} overflow-hidden`}>
+        {project.imageUrl ? (
+          <img
+            src={project.imageUrl}
+            alt={project.name}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-[#235347] to-[#0B2B26] flex items-center justify-center">
+            <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-[#8EB69B]/10 flex items-center justify-center">
+              <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-[#8EB69B]/20" />
+            </div>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#051F20] via-transparent to-transparent" />
+        
+        {project.hackathonPlacement && (
+          <div className="absolute top-3 right-3">
+            <Badge className="bg-[#8EB69B] text-[#051F20] gap-1 font-semibold">
+              <Trophy className="w-3 h-3" />
+              {project.hackathonPlacement}
+            </Badge>
+          </div>
+        )}
+      </div>
+      
+      <div className="p-4 md:p-6">
+        <h3 className="text-lg md:text-xl font-bold text-[#DAF1DE] mb-2 group-hover:text-[#8EB69B] transition-colors">
+          {project.name}
+        </h3>
+        
+        {project.hackathonName && (
+          <p className="text-[#8EB69B] text-sm mb-3">{project.hackathonName}</p>
+        )}
+        
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.techStack.slice(0, size === "large" ? 6 : 4).map((tech, i) => (
+            <Badge
+              key={i}
+              variant="outline"
+              className="border-[#8EB69B]/30 text-[#8EB69B] text-xs"
+            >
+              {tech}
+            </Badge>
+          ))}
+          {project.techStack.length > (size === "large" ? 6 : 4) && (
+            <Badge
+              variant="outline"
+              className="border-[#8EB69B]/30 text-[#8EB69B] text-xs"
+            >
+              +{project.techStack.length - (size === "large" ? 6 : 4)}
+            </Badge>
+          )}
+        </div>
+        
+        {project.githubLink && (
+          <a
+            href={project.githubLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors"
+            data-testid={`link-github-${project.id}`}
+          >
+            <Github className="w-4 h-4" />
+            View on GitHub
+            <ExternalLink className="w-3 h-3" />
+          </a>
+        )}
+      </div>
+    </motion.div>
+  );
+}
