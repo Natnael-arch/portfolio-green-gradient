@@ -15,6 +15,8 @@ import {
   Eye,
   EyeOff,
   LogOut,
+  Globe,
+  Image,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,6 +42,7 @@ const projectSchema = z.object({
   hackathonName: z.string().optional(),
   hackathonPlacement: z.string().optional(),
   githubLink: z.string().url().optional().or(z.literal("")),
+  liveLink: z.string().url().optional().or(z.literal("")),
   techStack: z.string().optional(),
   imageUrl: z.string().url().optional().or(z.literal("")),
 });
@@ -49,6 +52,7 @@ const certificateSchema = z.object({
   issuingOrganization: z.string().min(1, "Organization is required"),
   issueDate: z.string().min(1, "Date is required"),
   link: z.string().url().optional().or(z.literal("")),
+  imageUrl: z.string().url().optional().or(z.literal("")),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -187,6 +191,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       hackathonName: "",
       hackathonPlacement: "",
       githubLink: "",
+      liveLink: "",
       techStack: "",
       imageUrl: "",
     },
@@ -199,6 +204,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       issuingOrganization: "",
       issueDate: "",
       link: "",
+      imageUrl: "",
     },
   });
 
@@ -209,6 +215,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         hackathonName: data.hackathonName || null,
         hackathonPlacement: data.hackathonPlacement || null,
         githubLink: data.githubLink || null,
+        liveLink: data.liveLink || null,
         techStack: data.techStack
           ? data.techStack.split(",").map((s) => s.trim())
           : [],
@@ -254,6 +261,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         issuingOrganization: data.issuingOrganization,
         issueDate: data.issueDate,
         link: data.link || null,
+        imageUrl: data.imageUrl || null,
       };
       return apiRequest("POST", "/api/certificates", payload);
     },
@@ -428,6 +436,27 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     />
                     <FormField
                       control={projectForm.control}
+                      name="liveLink"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Globe className="w-4 h-4 text-[#8EB69B]" />
+                            Live Link
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="https://your-project.vercel.app"
+                              className="bg-[#0B2B26]/50 border-[#235347]/50"
+                              data-testid="input-live-link"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={projectForm.control}
                       name="techStack"
                       render={({ field }) => (
                         <FormItem>
@@ -486,9 +515,17 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         key={project.id}
                         className="flex items-center justify-between p-3 rounded-lg bg-[#0B2B26]/30 border border-[#235347]/20"
                       >
-                        <span className="text-sm text-[#DAF1DE] truncate flex-1">
-                          {project.name}
-                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-sm text-[#DAF1DE] truncate block">
+                            {project.name}
+                          </span>
+                          {project.liveLink && (
+                            <span className="text-xs text-[#8EB69B] flex items-center gap-1">
+                              <Globe className="w-3 h-3" />
+                              Has live link
+                            </span>
+                          )}
+                        </div>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -606,6 +643,27 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         </FormItem>
                       )}
                     />
+                    <FormField
+                      control={certificateForm.control}
+                      name="imageUrl"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Image className="w-4 h-4 text-[#8EB69B]" />
+                            Certificate Image URL
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="https://example.com/certificate.png"
+                              className="bg-[#0B2B26]/50 border-[#235347]/50"
+                              data-testid="input-certificate-image"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                     <Button
                       type="submit"
                       className="w-full gap-2"
@@ -630,9 +688,17 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         key={cert.id}
                         className="flex items-center justify-between p-3 rounded-lg bg-[#0B2B26]/30 border border-[#235347]/20"
                       >
-                        <span className="text-sm text-[#DAF1DE] truncate flex-1">
-                          {cert.name}
-                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-sm text-[#DAF1DE] truncate block">
+                            {cert.name}
+                          </span>
+                          {cert.imageUrl && (
+                            <span className="text-xs text-[#8EB69B] flex items-center gap-1">
+                              <Image className="w-3 h-3" />
+                              Has image
+                            </span>
+                          )}
+                        </div>
                         <Button
                           variant="ghost"
                           size="icon"

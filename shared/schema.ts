@@ -9,6 +9,7 @@ export const projects = pgTable("projects", {
   hackathonName: text("hackathon_name"),
   hackathonPlacement: text("hackathon_placement"),
   githubLink: text("github_link"),
+  liveLink: text("live_link"),
   techStack: text("tech_stack").array().notNull().default(sql`ARRAY[]::text[]`),
   imageUrl: text("image_url"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -20,6 +21,7 @@ export const certificates = pgTable("certificates", {
   issuingOrganization: text("issuing_organization").notNull(),
   issueDate: text("issue_date").notNull(),
   link: text("link"),
+  imageUrl: text("image_url"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

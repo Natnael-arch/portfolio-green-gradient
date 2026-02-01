@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Trophy } from "lucide-react";
+import { ExternalLink, Github, Trophy, Globe } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { Project } from "@shared/schema";
 
 interface ProjectCardProps {
@@ -86,19 +87,37 @@ export function ProjectCard({ project, index, size = "medium" }: ProjectCardProp
           )}
         </div>
         
-        {project.githubLink && (
-          <a
-            href={project.githubLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors"
-            data-testid={`link-github-${project.id}`}
-          >
-            <Github className="w-4 h-4" />
-            View on GitHub
-            <ExternalLink className="w-3 h-3" />
-          </a>
-        )}
+        <div className="flex flex-wrap items-center gap-3">
+          {project.liveLink && (
+            <a
+              href={project.liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid={`link-live-${project.id}`}
+            >
+              <Button
+                size="sm"
+                className="gap-2 bg-[#8EB69B] text-[#051F20] hover:bg-[#DAF1DE]"
+              >
+                <Globe className="w-3 h-3" />
+                View Live
+              </Button>
+            </a>
+          )}
+          {project.githubLink && (
+            <a
+              href={project.githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors"
+              data-testid={`link-github-${project.id}`}
+            >
+              <Github className="w-4 h-4" />
+              GitHub
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          )}
+        </div>
       </div>
     </motion.div>
   );

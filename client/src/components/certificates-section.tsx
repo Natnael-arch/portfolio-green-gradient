@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { Award, ExternalLink, Calendar, Building } from "lucide-react";
+import { Award, ExternalLink, Calendar, Building, Image } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { CertificateLightbox } from "./certificate-lightbox";
 import type { Certificate } from "@shared/schema";
 
 export function CertificatesSection() {
+  const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
+
   const { data: certificates, isLoading } = useQuery<Certificate[]>({
     queryKey: ["/api/certificates"],
   });
@@ -55,7 +60,11 @@ export function CertificatesSection() {
               >
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                   <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#8EB69B]/10 flex items-center justify-center group-hover:bg-[#8EB69B]/20 transition-colors">
-                    <Award className="w-6 h-6 md:w-7 md:h-7 text-[#8EB69B]" />
+                    {cert.imageUrl ? (
+                      <Image className="w-6 h-6 md:w-7 md:h-7 text-[#8EB69B]" />
+                    ) : (
+                      <Award className="w-6 h-6 md:w-7 md:h-7 text-[#8EB69B]" />
+                    )}
                   </div>
                   
                   <div className="flex-1 min-w-0">
@@ -74,18 +83,16 @@ export function CertificatesSection() {
                     </div>
                   </div>
                   
-                  {cert.link && (
-                    <a
-                      href={cert.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#8EB69B]/10 text-[#8EB69B] text-sm font-medium hover:bg-[#8EB69B]/20 transition-colors"
-                      data-testid={`link-certificate-${cert.id}`}
-                    >
-                      View
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex-shrink-0 gap-2 text-[#8EB69B] hover:text-[#DAF1DE] hover:bg-[#8EB69B]/10"
+                    onClick={() => setSelectedCertificate(cert)}
+                    data-testid={`button-view-certificate-${cert.id}`}
+                  >
+                    View
+                    <ExternalLink className="w-4 h-4" />
+                  </Button>
                 </div>
               </motion.div>
             ))}
@@ -106,6 +113,12 @@ export function CertificatesSection() {
           </motion.div>
         )}
       </div>
+
+      <CertificateLightbox
+        certificate={selectedCertificate}
+        isOpen={!!selectedCertificate}
+        onClose={() => setSelectedCertificate(null)}
+      />
     </section>
   );
 }

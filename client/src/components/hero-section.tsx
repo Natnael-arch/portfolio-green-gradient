@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
-import { Wallet } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { GlowingOrb } from "./glowing-orb";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-24">
       <div className="absolute inset-0 bg-gradient-radial opacity-50" />
       
       <div className="relative z-10 max-w-7xl mx-auto w-full">
@@ -61,25 +59,26 @@ export function HeroSection() {
               transition={{ delay: 0.6, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <Button
-                size="lg"
-                className="gap-2 px-8 py-6 text-lg font-semibold"
-                data-testid="button-connect-wallet"
-              >
-                <Wallet className="w-5 h-5" />
-                Connect Wallet
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="px-8 py-6 text-lg font-semibold border-[#8EB69B]/30 text-[#DAF1DE]"
-                data-testid="button-view-projects"
+              <motion.button
+                whileHover={{ scale: 1.02 }}
                 onClick={() => {
                   document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
                 }}
+                className="px-8 py-4 text-lg font-semibold rounded-lg bg-[#235347] hover:bg-[#163832] text-[#DAF1DE] border border-[#8EB69B]/30 transition-colors"
+                data-testid="button-view-projects"
               >
                 View Projects
-              </Button>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                onClick={() => {
+                  document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-8 py-4 text-lg font-semibold rounded-lg border border-[#8EB69B]/30 text-[#DAF1DE] hover:bg-[#235347]/30 transition-colors"
+                data-testid="button-about-me"
+              >
+                About Me
+              </motion.button>
             </motion.div>
           </motion.div>
           
