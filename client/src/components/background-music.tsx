@@ -14,6 +14,7 @@ export function BackgroundMusic() {
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasAudio, setHasAudio] = useState(true);
+  const [autoplayAttempted, setAutoplayAttempted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleEnded = useCallback(() => {
@@ -28,6 +29,16 @@ export function BackgroundMusic() {
     
     const handleCanPlayThrough = () => {
       setHasAudio(true);
+      if (!autoplayAttempted) {
+        setAutoplayAttempted(true);
+        audio.play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(() => {
+            setIsPlaying(false);
+          });
+      }
     };
     
     const handleError = () => {
@@ -48,7 +59,7 @@ export function BackgroundMusic() {
       audio.pause();
       audio.src = "";
     };
-  }, [currentTrack, handleEnded]);
+  }, [currentTrack, handleEnded, autoplayAttempted]);
 
   useEffect(() => {
     if (audioRef.current && hasAudio) {
