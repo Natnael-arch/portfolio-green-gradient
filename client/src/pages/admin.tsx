@@ -188,6 +188,22 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     initialData: staticCertificates as Certificate[],
   });
 
+  const [projectFile, setProjectFile] = useState<File | null>(null);
+  const [certFile, setCertFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const uploadFile = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+    if (!res.ok) throw new Error("Upload failed");
+    const data = await res.json();
+    return data.url;
+  };
+
   const projectForm = useForm<ProjectFormData>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
@@ -214,22 +230,32 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   const createProjectMutation = useMutation({
     mutationFn: async (data: ProjectFormData) => {
-      const payload = {
-        name: data.name,
-        hackathonName: data.hackathonName || null,
-        hackathonPlacement: data.hackathonPlacement || null,
-        githubLink: data.githubLink || null,
-        liveLink: data.liveLink || null,
-        techStack: data.techStack
-          ? data.techStack.split(",").map((s) => s.trim())
-          : [],
-        imageUrl: data.imageUrl || null,
-      };
-      return apiRequest("POST", "/api/projects", payload);
+      setIsUploading(true);
+      try {
+        let imageUrl = data.imageUrl || null;
+        if (projectFile) {
+          imageUrl = await uploadFile(projectFile);
+        }
+        const payload = {
+          name: data.name,
+          hackathonName: data.hackathonName || null,
+          hackathonPlacement: data.hackathonPlacement || null,
+          githubLink: data.githubLink || null,
+          liveLink: data.liveLink || null,
+          techStack: data.techStack
+            ? data.techStack.split(",").map((s) => s.trim())
+            : [],
+          imageUrl,
+        };
+        return apiRequest("POST", "/api/projects", payload);
+      } finally {
+        setIsUploading(false);
+      }
     },
     onSuccess: () => {
       toast({ title: "Success", description: "Project added!" });
       projectForm.reset();
+      setProjectFile(null);
       queryClient.invalidateQueries({ queryKey: ["/api/projects"] });
     },
     onError: () => {
@@ -260,18 +286,28 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   const createCertificateMutation = useMutation({
     mutationFn: async (data: CertificateFormData) => {
-      const payload = {
-        name: data.name,
-        issuingOrganization: data.issuingOrganization,
-        issueDate: data.issueDate,
-        link: data.link || null,
-        imageUrl: data.imageUrl || null,
-      };
-      return apiRequest("POST", "/api/certificates", payload);
+      setIsUploading(true);
+      try {
+        let imageUrl = data.imageUrl || null;
+        if (certFile) {
+          imageUrl = await uploadFile(certFile);
+        }
+        const payload = {
+          name: data.name,
+          issuingOrganization: data.issuingOrganization,
+          issueDate: data.issueDate,
+          link: data.link || null,
+          imageUrl,
+        };
+        return apiRequest("POST", "/api/certificates", payload);
+      } finally {
+        setIsUploading(false);
+      }
     },
     onSuccess: () => {
       toast({ title: "Success", description: "Certificate added!" });
       certificateForm.reset();
+      setCertFile(null);
       queryClient.invalidateQueries({ queryKey: ["/api/certificates"] });
     },
     onError: () => {
@@ -477,33 +513,28 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={projectForm.control}
-                      name="imageUrl"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Image URL</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="https://example.com/image.png"
-                              className="bg-[#0B2B26]/50 border-[#235347]/50"
-                              data-testid="input-image-url"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="space-y-2">
+                      <FormLabel>Project Image</FormLabel>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setProjectFile(e.target.files?.[0] || null)}
+                        className="bg-[#0B2B26]/50 border-[#235347]/50"
+                        data-testid="input-project-image"
+                      />
+                      <p className="text-[0.8rem] text-muted-foreground">
+                        Upload a local image file. It will be saved in your project folder.
+                      </p>
+                    </div>
                     <Button
                       type="submit"
                       className="w-full gap-2"
-                      disabled={createProjectMutation.isPending}
+                      disabled={createProjectMutation.isPending || isUploading}
                       data-testid="button-add-project"
                     >
                       <Plus className="w-4 h-4" />
-                      {createProjectMutation.isPending
-                        ? "Adding..."
+                      {createProjectMutation.isPending || isUploading
+                        ? "Uploading..."
                         : "Add Project"}
                     </Button>
                   </form>
@@ -647,36 +678,28 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={certificateForm.control}
-                      name="imageUrl"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Image className="w-4 h-4 text-[#8EB69B]" />
-                            Certificate Image URL
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="https://example.com/certificate.png"
-                              className="bg-[#0B2B26]/50 border-[#235347]/50"
-                              data-testid="input-certificate-image"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="space-y-2">
+                      <FormLabel>Certificate Image</FormLabel>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setCertFile(e.target.files?.[0] || null)}
+                        className="bg-[#0B2B26]/50 border-[#235347]/50"
+                        data-testid="input-certificate-image"
+                      />
+                      <p className="text-[0.8rem] text-muted-foreground">
+                        Upload the certificate image or logo.
+                      </p>
+                    </div>
                     <Button
                       type="submit"
                       className="w-full gap-2"
-                      disabled={createCertificateMutation.isPending}
+                      disabled={createCertificateMutation.isPending || isUploading}
                       data-testid="button-add-certificate"
                     >
                       <Plus className="w-4 h-4" />
-                      {createCertificateMutation.isPending
-                        ? "Adding..."
+                      {createCertificateMutation.isPending || isUploading
+                        ? "Uploading..."
                         : "Add Certificate"}
                     </Button>
                   </form>

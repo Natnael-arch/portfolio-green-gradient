@@ -1,7 +1,28 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage, seedDatabase } from "./storage.ts";
 import { insertProjectSchema, insertCertificateSchema } from "../shared/schema.ts";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+
+import express from "express";
+
+const storage_config = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    const uploadPath = path.resolve(process.cwd(), "client/public/uploads");
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+    cb(null, uploadPath);
+  },
+  filename: (_req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage_config });
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 
@@ -12,6 +33,18 @@ export async function registerRoutes(
 
   // Initialize database and seed data
   await seedDatabase();
+
+  // Serve uploaded files statically
+  app.use("/uploads", express.static(path.resolve(process.cwd(), "client/public/uploads")));
+
+  // File Upload API
+  app.post("/api/upload", upload.single("file"), (req: Request, res: Response) => {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+    const relativePath = `/uploads/${req.file.filename}`;
+    res.json({ url: relativePath });
+  });
 
   // Admin login
   app.post("/api/admin/login", (req, res) => {
