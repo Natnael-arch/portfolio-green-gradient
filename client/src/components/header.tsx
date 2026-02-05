@@ -18,68 +18,37 @@ export function Header() {
         <div className="glass-card rounded-full px-6 py-3 flex items-center justify-between gap-4">
           <Link href="/">
             <motion.span
-              className="text-xl font-bold text-gradient cursor-pointer"
+              className="text-xl font-bold text-gradient cursor-pointer uppercase tracking-wider"
               whileHover={{ scale: 1.02 }}
               data-testid="link-logo"
             >
-              PORTFOLIO
+              Natnael Beshane
             </motion.span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/#projects">
-              <span 
-                className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer"
-                data-testid="link-nav-projects"
-              >
-                Projects
-              </span>
-            </Link>
-            <Link href="/#certificates">
-              <span 
-                className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer"
-                data-testid="link-nav-certificates"
-              >
-                Certificates
-              </span>
-            </Link>
-            <Link href="/#about">
-              <span 
-                className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer"
-                data-testid="link-nav-about"
-              >
-                About
-              </span>
-            </Link>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            {!isAdmin && (
-              <Link href="/admin">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  data-testid="link-admin"
-                >
-                  Admin
-                </Button>
-              </Link>
-            )}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="relative group"
+          <nav className="hidden md:flex items-center gap-8">
+            <button
+              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+              className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer"
+              data-testid="link-nav-projects"
             >
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#8EB69B] to-[#235347] rounded-full opacity-0 group-hover:opacity-70 blur-md transition-opacity duration-300" />
-              <Button
-                size="sm"
-                className="relative gap-2 rounded-full"
-                data-testid="button-connect-wallet"
-              >
-                <Wallet className="w-4 h-4" />
-                <span className="hidden sm:inline">Connect Wallet</span>
-              </Button>
-            </motion.div>
-          </div>
+              Projects
+            </button>
+            <button
+              onClick={() => document.getElementById('certificates')?.scrollIntoView({ behavior: 'smooth' })}
+              className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer"
+              data-testid="link-nav-certificates"
+            >
+              Certificates
+            </button>
+            <button
+              onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+              className="text-sm text-muted-foreground hover:text-[#8EB69B] transition-colors cursor-pointer"
+              data-testid="link-nav-about"
+            >
+              About
+            </button>
+          </nav>
         </div>
       </div>
     </motion.header>

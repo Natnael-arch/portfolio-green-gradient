@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage, seedDatabase } from "./storage";
-import { insertProjectSchema, insertCertificateSchema } from "@shared/schema";
+import { insertProjectSchema, insertCertificateSchema } from "../shared/schema";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 
@@ -9,7 +9,7 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  
+
   // Initialize database and seed data
   await seedDatabase();
 

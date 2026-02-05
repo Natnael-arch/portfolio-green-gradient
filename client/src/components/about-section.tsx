@@ -3,10 +3,9 @@ import { Code2, Blocks, Trophy, Rocket } from "lucide-react";
 
 export function AboutSection() {
   const stats = [
-    { icon: Blocks, label: "Smart Contracts", value: "50+" },
-    { icon: Trophy, label: "Hackathon Wins", value: "12" },
-    { icon: Code2, label: "Projects Built", value: "30+" },
-    { icon: Rocket, label: "dApps Deployed", value: "15+" },
+    { icon: Rocket, label: "dApps Deployed", value: "10+" },
+    { icon: Code2, label: "Projects Built", value: "10+" },
+    { icon: Blocks, label: "Protocols", value: "5+" },
   ];
 
   return (
@@ -34,31 +33,28 @@ export function AboutSection() {
             <div className="glass-card rounded-2xl p-8">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#8EB69B] to-[#235347] flex items-center justify-center text-2xl font-bold text-[#051F20]">
-                  W3
+                  NB
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-[#DAF1DE]">Web3 Developer</h3>
-                  <p className="text-[#8EB69B]">Blockchain Engineer & dApp Architect</p>
+                  <h3 className="text-2xl font-bold text-[#DAF1DE]">Natnael Beshane</h3>
+                  <p className="text-[#8EB69B]">AI & Blockchain Developer</p>
                 </div>
               </div>
 
               <p className="text-muted-foreground leading-relaxed mb-6">
-                I'm a passionate Web3 developer specializing in building decentralized applications 
-                and smart contracts. With extensive experience in Solidity, I've contributed to 
-                numerous DeFi protocols, NFT marketplaces, and DAO governance systems.
+                I am a developer focused on the intersection of AI and Blockchain.
               </p>
 
               <p className="text-muted-foreground leading-relaxed mb-6">
-                As an active hackathon participant, I thrive on solving complex blockchain challenges 
-                under pressure. My projects have won multiple awards at ETHGlobal, Chainlink, and 
-                ETHDenver hackathons. I believe in building secure, scalable, and user-friendly 
-                decentralized solutions that push the boundaries of what's possible on-chain.
+                I specialize in building intelligent decentralized systems and high-performance blockchain solutions.
+                My work involves leveraging AI to enhance smart contract security, optimize DeFi protocols,
+                and create smarter dApps that push the boundaries of Web3.
               </p>
 
               <p className="text-muted-foreground leading-relaxed">
-                My tech stack includes Solidity, Rust, TypeScript, React, Hardhat, Foundry, and 
-                various L2 solutions. I'm constantly exploring new protocols and contributing to 
-                the open-source Web3 ecosystem.
+                My tech stack includes Mezo (Bitcoin), Solana, Movement, ICP Fusion, Zora, Celestia, and
+                Ethereum Smart Contracts. I'm constantly exploring new protocols and integrating AI
+                models into the decentralized ecosystem.
               </p>
             </div>
           </motion.div>

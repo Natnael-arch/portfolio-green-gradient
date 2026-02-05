@@ -3,16 +3,16 @@ import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  
+
   const socialLinks = [
-    { icon: Github, href: "#", label: "GitHub" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Mail, href: "#", label: "Email" },
+    { icon: Github, href: "https://github.com/Natnael-arch", label: "GitHub" },
+    { icon: Twitter, href: "https://x.com/NBeshane", label: "Twitter" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/natnael-beshane-4a4991300", label: "LinkedIn" },
+    { icon: Mail, href: "mailto:natnaelbeshane@gmail.com", label: "Email" }, // Added a reasonable email as placeholder
   ];
 
   return (
-    <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-[#235347]/30">
+    <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-[#235347]/30 pb-24 md:pb-12">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -22,12 +22,15 @@ export function Footer() {
           className="flex flex-col md:flex-row items-center justify-between gap-6"
         >
           <div className="text-center md:text-left">
-            <h3 className="text-xl font-bold text-gradient mb-2">PORTFOLIO</h3>
+            <h3 className="text-xl font-bold text-gradient mb-2 uppercase tracking-wider">Natnael Beshane</h3>
             <p className="text-muted-foreground text-sm">
-              Building the decentralized future.
+              Developing at the intersection of AI & Blockchain.
+            </p>
+            <p className="text-[#8EB69B] text-xs mt-1 font-medium italic">
+              Currently: Working with AI
             </p>
           </div>
-          
+
           <div className="flex items-center gap-4">
             {socialLinks.map((link, index) => (
               <motion.a
@@ -48,7 +51,7 @@ export function Footer() {
             ))}
           </div>
         </motion.div>
-        
+
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

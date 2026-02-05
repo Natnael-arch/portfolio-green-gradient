@@ -6,7 +6,7 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-24">
       <div className="absolute inset-0 bg-gradient-radial opacity-50" />
-      
+
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           <motion.div
@@ -24,7 +24,7 @@ export function HeroSection() {
               <span className="w-2 h-2 rounded-full bg-[#8EB69B] animate-pulse" />
               <span className="text-sm text-[#8EB69B] font-medium">Available for Work</span>
             </motion.div>
-            
+
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -33,18 +33,18 @@ export function HeroSection() {
             >
               Web3 Developer
             </motion.p>
-            
+
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
             >
-              <span className="text-gradient">PORT</span>
+              <span className="text-gradient">NATNAEL</span>
               <br />
-              <span className="text-gradient">FOLIO</span>
+              <span className="text-gradient">BESHANE</span>
             </motion.h1>
-            
+
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -53,7 +53,7 @@ export function HeroSection() {
             >
               Building the decentralized future. Smart contracts, DeFi protocols, and blockchain solutions.
             </motion.p>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -81,7 +81,7 @@ export function HeroSection() {
               </Button>
             </motion.div>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -92,7 +92,7 @@ export function HeroSection() {
           </motion.div>
         </div>
       </div>
-      
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
