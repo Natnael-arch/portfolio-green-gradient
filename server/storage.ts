@@ -9,7 +9,7 @@ import {
   type Certificate,
   type InsertProject,
   type InsertCertificate,
-} from "../shared/schema";
+} from "../shared/schema.ts";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

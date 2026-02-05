@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage, seedDatabase } from "./storage";
-import { insertProjectSchema, insertCertificateSchema } from "../shared/schema";
+import { storage, seedDatabase } from "./storage.ts";
+import { insertProjectSchema, insertCertificateSchema } from "../shared/schema.ts";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 
@@ -21,7 +21,7 @@ export async function registerRoutes(
       console.log("Login successful.");
       res.json({ success: true });
     } else {
-      console.error(`Login failed: Invalid password. Expected: ${ADMIN_PASSWORD ? "****" : "undefined"}`);
+      console.error(`Login failed: Invalid password.Expected: ${ADMIN_PASSWORD ? "****" : "undefined"} `);
       res.status(401).json({ error: "Invalid password" });
     }
   });
