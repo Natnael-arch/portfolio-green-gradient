@@ -2,11 +2,14 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { ProjectCard } from "./project-card";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Project } from "@shared/schema";
+import type { Project } from "@shared/schema.ts";
+
+import staticProjects from "@/data/projects.json";
 
 export function ProjectsSection() {
   const { data: projects, isLoading } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
+    initialData: staticProjects as Project[],
   });
 
   return (

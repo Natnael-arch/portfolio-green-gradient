@@ -31,7 +31,9 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import type { Project, Certificate } from "@shared/schema";
+import type { Project, Certificate } from "@shared/schema.ts";
+import staticProjects from "@/data/projects.json";
+import staticCertificates from "@/data/certificates.json";
 
 const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
@@ -178,10 +180,12 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   const { data: projects } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
+    initialData: staticProjects as Project[],
   });
 
   const { data: certificates } = useQuery<Certificate[]>({
     queryKey: ["/api/certificates"],
+    initialData: staticCertificates as Certificate[],
   });
 
   const projectForm = useForm<ProjectFormData>({

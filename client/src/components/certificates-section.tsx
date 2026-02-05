@@ -5,13 +5,16 @@ import { Award, ExternalLink, Calendar, Building, Image } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { CertificateLightbox } from "./certificate-lightbox";
-import type { Certificate } from "@shared/schema";
+import type { Certificate } from "@shared/schema.ts";
+
+import staticCertificates from "@/data/certificates.json";
 
 export function CertificatesSection() {
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
 
   const { data: certificates, isLoading } = useQuery<Certificate[]>({
     queryKey: ["/api/certificates"],
+    initialData: staticCertificates as Certificate[],
   });
 
   return (
@@ -66,23 +69,23 @@ export function CertificatesSection() {
                       <Award className="w-6 h-6 md:w-7 md:h-7 text-[#8EB69B]" />
                     )}
                   </div>
-                  
+
                   <div className="flex-1 min-w-0">
-                    <h3 
+                    <h3
                       className="text-lg md:text-xl font-semibold text-[#DAF1DE] group-hover:text-[#8EB69B] transition-colors truncate"
                       data-testid={`text-cert-name-${cert.id}`}
                     >
                       {cert.name}
                     </h3>
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2 text-sm text-muted-foreground">
-                      <span 
+                      <span
                         className="flex items-center gap-1.5"
                         data-testid={`text-cert-org-${cert.id}`}
                       >
                         <Building className="w-4 h-4 text-[#8EB69B]/70" />
                         {cert.issuingOrganization}
                       </span>
-                      <span 
+                      <span
                         className="flex items-center gap-1.5"
                         data-testid={`text-cert-date-${cert.id}`}
                       >
@@ -91,7 +94,7 @@ export function CertificatesSection() {
                       </span>
                     </div>
                   </div>
-                  
+
                   <Button
                     variant="ghost"
                     size="sm"
