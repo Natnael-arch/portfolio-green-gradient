@@ -13,6 +13,7 @@ import {
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
 });
 
 const db = drizzle(pool);
@@ -78,97 +79,108 @@ export class DatabaseStorage implements IStorage {
 export const storage = new DatabaseStorage();
 
 export async function seedDatabase() {
-  const existingProjects = await storage.getProjects();
-  const existingCertificates = await storage.getCertificates();
+  console.log("Checking if database seeding is required...");
+  try {
+    const existingProjects = await storage.getProjects();
+    const existingCertificates = await storage.getCertificates();
+    console.log(`Found ${existingProjects.length} projects and ${existingCertificates.length} certificates.`);
 
-  if (existingProjects.length === 0) {
-    const sampleProjects: InsertProject[] = [
-      {
-        name: "DeFi Swap Protocol",
-        hackathonName: "ETHGlobal Paris 2024",
-        hackathonPlacement: "1st Place",
-        githubLink: "https://github.com/example/defi-swap",
-        liveLink: "https://defi-swap-demo.vercel.app",
-        techStack: ["Solidity", "React", "Ethers.js", "Hardhat", "TheGraph"],
-        imageUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&auto=format&fit=crop&q=60",
-      },
-      {
-        name: "NFT Marketplace",
-        hackathonName: "Chainlink Hackathon",
-        hackathonPlacement: "Best Use of Chainlink",
-        githubLink: "https://github.com/example/nft-market",
-        liveLink: "https://nft-market-demo.vercel.app",
-        techStack: ["Solidity", "Next.js", "IPFS", "Chainlink VRF"],
-        imageUrl: "https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?w=800&auto=format&fit=crop&q=60",
-      },
-      {
-        name: "Cross-Chain Bridge",
-        hackathonName: null,
-        hackathonPlacement: null,
-        githubLink: "https://github.com/example/bridge",
-        liveLink: "https://cross-chain-bridge.io",
-        techStack: ["Rust", "Solidity", "LayerZero", "React"],
-        imageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&auto=format&fit=crop&q=60",
-      },
-      {
-        name: "DAO Governance Platform",
-        hackathonName: "ETHDenver 2024",
-        hackathonPlacement: "Top 10 Finalist",
-        githubLink: "https://github.com/example/dao-platform",
-        liveLink: null,
-        techStack: ["Solidity", "TypeScript", "Snapshot", "Safe"],
-        imageUrl: null,
-      },
-      {
-        name: "Yield Aggregator",
-        hackathonName: null,
-        hackathonPlacement: null,
-        githubLink: "https://github.com/example/yield-agg",
-        liveLink: "https://yield-aggregator.finance",
-        techStack: ["Solidity", "Python", "Brownie", "Aave", "Compound"],
-        imageUrl: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=800&auto=format&fit=crop&q=60",
-      },
-    ];
+    if (existingProjects.length === 0) {
+      console.log("Seeding initial projects...");
+      const sampleProjects: InsertProject[] = [
+        {
+          name: "DeFi Swap Protocol",
+          hackathonName: "ETHGlobal Paris 2024",
+          hackathonPlacement: "1st Place",
+          githubLink: "https://github.com/example/defi-swap",
+          liveLink: "https://defi-swap-demo.vercel.app",
+          techStack: ["Solidity", "React", "Ethers.js", "Hardhat", "TheGraph"],
+          imageUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&auto=format&fit=crop&q=60",
+        },
+        {
+          name: "NFT Marketplace",
+          hackathonName: "Chainlink Hackathon",
+          hackathonPlacement: "Best Use of Chainlink",
+          githubLink: "https://github.com/example/nft-market",
+          liveLink: "https://nft-market-demo.vercel.app",
+          techStack: ["Solidity", "Next.js", "IPFS", "Chainlink VRF"],
+          imageUrl: "https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?w=800&auto=format&fit=crop&q=60",
+        },
+        {
+          name: "Cross-Chain Bridge",
+          hackathonName: null,
+          hackathonPlacement: null,
+          githubLink: "https://github.com/example/bridge",
+          liveLink: "https://cross-chain-bridge.io",
+          techStack: ["Rust", "Solidity", "LayerZero", "React"],
+          imageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&auto=format&fit=crop&q=60",
+        },
+        {
+          name: "DAO Governance Platform",
+          hackathonName: "ETHDenver 2024",
+          hackathonPlacement: "Top 10 Finalist",
+          githubLink: "https://github.com/example/dao-platform",
+          liveLink: null,
+          techStack: ["Solidity", "TypeScript", "Snapshot", "Safe"],
+          imageUrl: null,
+        },
+        {
+          name: "Yield Aggregator",
+          hackathonName: null,
+          hackathonPlacement: null,
+          githubLink: "https://github.com/example/yield-agg",
+          liveLink: "https://yield-aggregator.finance",
+          techStack: ["Solidity", "Python", "Brownie", "Aave", "Compound"],
+          imageUrl: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=800&auto=format&fit=crop&q=60",
+        },
+      ];
 
-    for (const project of sampleProjects) {
-      await storage.createProject(project);
+      for (const project of sampleProjects) {
+        await storage.createProject(project);
+      }
+      console.log("Projects seeded.");
     }
-  }
 
-  if (existingCertificates.length === 0) {
-    const sampleCertificates: InsertCertificate[] = [
-      {
-        name: "Certified Ethereum Developer",
-        issuingOrganization: "Blockchain Council",
-        issueDate: "December 2024",
-        link: "https://verify.blockchain-council.org/cert/12345",
-        imageUrl: "https://images.unsplash.com/photo-1496065187959-7f07b8353c55?w=800&auto=format&fit=crop&q=60",
-      },
-      {
-        name: "Solidity Security Expert",
-        issuingOrganization: "ConsenSys Academy",
-        issueDate: "October 2024",
-        link: "https://consensys.net/verify/67890",
-        imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=60",
-      },
-      {
-        name: "DeFi Protocol Engineering",
-        issuingOrganization: "Alchemy University",
-        issueDate: "August 2024",
-        link: "https://alchemy.com/cert/abcdef",
-        imageUrl: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=800&auto=format&fit=crop&q=60",
-      },
-      {
-        name: "Smart Contract Auditor",
-        issuingOrganization: "OpenZeppelin",
-        issueDate: "June 2024",
-        link: null,
-        imageUrl: null,
-      },
-    ];
+    if (existingCertificates.length === 0) {
+      console.log("Seeding initial certificates...");
+      const sampleCertificates: InsertCertificate[] = [
+        {
+          name: "Certified Ethereum Developer",
+          issuingOrganization: "Blockchain Council",
+          issueDate: "December 2024",
+          link: "https://verify.blockchain-council.org/cert/12345",
+          imageUrl: "https://images.unsplash.com/photo-1496065187959-7f07b8353c55?w=800&auto=format&fit=crop&q=60",
+        },
+        {
+          name: "Solidity Security Expert",
+          issuingOrganization: "ConsenSys Academy",
+          issueDate: "October 2024",
+          link: "https://consensys.net/verify/67890",
+          imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=60",
+        },
+        {
+          name: "DeFi Protocol Engineering",
+          issuingOrganization: "Alchemy University",
+          issueDate: "August 2024",
+          link: "https://alchemy.com/cert/abcdef",
+          imageUrl: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=800&auto=format&fit=crop&q=60",
+        },
+        {
+          name: "Smart Contract Auditor",
+          issuingOrganization: "OpenZeppelin",
+          issueDate: "June 2024",
+          link: null,
+          imageUrl: null,
+        },
+      ];
 
-    for (const cert of sampleCertificates) {
-      await storage.createCertificate(cert);
+      for (const cert of sampleCertificates) {
+        await storage.createCertificate(cert);
+      }
+      console.log("Certificates seeded.");
     }
+    console.log("Database seeding check complete.");
+  } catch (error) {
+    console.error("Database seeding failed:", error);
   }
 }

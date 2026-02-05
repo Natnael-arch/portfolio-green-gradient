@@ -16,9 +16,12 @@ export async function registerRoutes(
   // Admin login
   app.post("/api/admin/login", (req, res) => {
     const { password } = req.body;
+    console.log("Login attempt received.");
     if (password === ADMIN_PASSWORD) {
+      console.log("Login successful.");
       res.json({ success: true });
     } else {
+      console.error(`Login failed: Invalid password. Expected: ${ADMIN_PASSWORD ? "****" : "undefined"}`);
       res.status(401).json({ error: "Invalid password" });
     }
   });
