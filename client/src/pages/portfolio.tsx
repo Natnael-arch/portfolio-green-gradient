@@ -15,6 +15,9 @@ export default function Portfolio() {
       <CertificatesSection />
       <AboutSection />
       <Footer />
+      <div className="fixed bottom-2 right-2 text-[8px] text-muted-foreground/20 pointer-events-none">
+        Build: {new Date().toLocaleTimeString()}
+      </div>
       <BackgroundMusic />
     </div>
   );
