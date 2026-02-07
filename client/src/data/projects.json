@@ -1,63 +1,54 @@
 [
   {
-    "id": 1,
-    "name": "DeFi Swap Protocol",
-    "hackathonName": "ETHGlobal Paris 2024",
-    "hackathonPlacement": "1st Place",
-    "githubLink": "https://github.com/example/defi-swap",
-    "liveLink": "https://defi-swap-demo.vercel.app",
-    "techStack": [
-      "Solidity",
-      "React",
-      "Ethers.js",
-      "Hardhat",
-      "TheGraph"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&auto=format&fit=crop&q=60"
-  },
-  {
-    "id": 2,
-    "name": "NFT Marketplace",
-    "hackathonName": "Chainlink Hackathon",
-    "hackathonPlacement": "Best Use of Chainlink",
-    "githubLink": "https://github.com/example/nft-market",
-    "liveLink": "https://nft-market-demo.vercel.app",
-    "techStack": [
-      "Solidity",
-      "Next.js",
-      "IPFS",
-      "Chainlink VRF"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?w=800&auto=format&fit=crop&q=60"
-  },
-  {
-    "id": 3,
-    "name": "Cross-Chain Bridge",
-    "hackathonName": null,
+    "id": 5,
+    "name": "Edufund",
+    "hackathonName": "Mezo Hackathon: Accelerating Bitcoin for Everyday Finance",
     "hackathonPlacement": null,
-    "githubLink": "https://github.com/example/bridge",
-    "liveLink": "https://cross-chain-bridge.io",
+    "githubLink": "https://github.com/Natnael-arch/Edufund",
+    "liveLink": "https://edushowcase12.vercel.app/",
     "techStack": [
-      "Rust",
-      "Solidity",
-      "LayerZero",
-      "React"
+      "Solidity"
     ],
-    "imageUrl": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&auto=format&fit=crop&q=60"
+    "imageUrl": "/uploads/1770407263547-21173242.png",
+    "createdAt": "2026-02-06T19:47:43.684Z"
   },
   {
-    "id": 4,
-    "name": "DAO Governance Platform",
-    "hackathonName": "ETHDenver 2024",
-    "hackathonPlacement": "Top 10 Finalist",
-    "githubLink": "https://github.com/example/dao-platform",
+    "id": 6,
+    "name": "Streamflow",
+    "hackathonName": "M1 Hackathon, powered by Replit",
+    "hackathonPlacement": null,
+    "githubLink": "https://github.com/Natnael-arch/StreamFlowV2",
+    "liveLink": "https://stream-flow-v2.vercel.app/",
+    "techStack": [],
+    "imageUrl": "/uploads/1770438365481-981681184.png",
+    "createdAt": "2026-02-07T04:26:05.589Z"
+  },
+  {
+    "id": 7,
+    "name": "Abbe Trading AI Agent",
+    "hackathonName": "Autonomous Apes AI Agent Trading Hackathon 25Q2",
+    "hackathonPlacement": null,
+    "githubLink": "https://github.com/Natnael-arch/Abbe_TradingAI_agent",
     "liveLink": null,
     "techStack": [
-      "Solidity",
-      "TypeScript",
-      "Snapshot",
-      "Safe"
+      "Python",
+      "javascript"
     ],
-    "imageUrl": null
+    "imageUrl": null,
+    "createdAt": "2026-02-07T04:46:58.027Z"
+  },
+  {
+    "id": 8,
+    "name": "ClipCoin",
+    "hackathonName": "Zora Coinathon 25Q2",
+    "hackathonPlacement": null,
+    "githubLink": "https://github.com/Natnael-arch/clip_coin",
+    "liveLink": null,
+    "techStack": [
+      "Typescript",
+      "Zora"
+    ],
+    "imageUrl": "/uploads/1770454916580-351843702.png",
+    "createdAt": "2026-02-07T09:01:56.672Z"
   }
 ]

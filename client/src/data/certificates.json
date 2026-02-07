@@ -1,34 +1,38 @@
 [
-    {
-        "id": 1,
-        "name": "Certified Ethereum Developer",
-        "issuingOrganization": "Blockchain Council",
-        "issueDate": "December 2024",
-        "link": "https://verify.blockchain-council.org/cert/12345",
-        "imageUrl": "https://images.unsplash.com/photo-1496065187959-7f07b8353c55?w=800&auto=format&fit=crop&q=60"
-    },
-    {
-        "id": 2,
-        "name": "Solidity Security Expert",
-        "issuingOrganization": "ConsenSys Academy",
-        "issueDate": "October 2024",
-        "link": "https://consensys.net/verify/67890",
-        "imageUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=60"
-    },
-    {
-        "id": 3,
-        "name": "DeFi Protocol Engineering",
-        "issuingOrganization": "Alchemy University",
-        "issueDate": "August 2024",
-        "link": "https://alchemy.com/cert/abcdef",
-        "imageUrl": "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=800&auto=format&fit=crop&q=60"
-    },
-    {
-        "id": 4,
-        "name": "Smart Contract Auditor",
-        "issuingOrganization": "OpenZeppelin",
-        "issueDate": "June 2024",
-        "link": null,
-        "imageUrl": null
-    }
+  {
+    "id": 5,
+    "name": "AI+GPT",
+    "issuingOrganization": "Encode",
+    "issueDate": "Jan 2024",
+    "link": null,
+    "imageUrl": "/uploads/1770295811056-497479282.png",
+    "createdAt": "2026-02-05T12:50:11.133Z"
+  },
+  {
+    "id": 6,
+    "name": "Camp Mamo",
+    "issuingOrganization": "Encode club",
+    "issueDate": "Sep 2025",
+    "link": null,
+    "imageUrl": "/uploads/1770440740944-632435421.png",
+    "createdAt": "2026-02-07T05:05:41.025Z"
+  },
+  {
+    "id": 7,
+    "name": "ICP Chain Fusion Educate - Bitcoin Edition",
+    "issuingOrganization": "Encode club",
+    "issueDate": "Jan 2025",
+    "link": null,
+    "imageUrl": "/uploads/1770440910692-628275988.png",
+    "createdAt": "2026-02-07T05:08:30.758Z"
+  },
+  {
+    "id": 8,
+    "name": "EVM Bootcamp Q1 2025",
+    "issuingOrganization": "Encode club",
+    "issueDate": "Match 2024",
+    "link": "https://opensea.io/item/polygon/0xdBf2138593aeC61d55d86E80b8ed86D7b9ba51F5/14357",
+    "imageUrl": "/uploads/1770453145042-320718589.png",
+    "createdAt": "2026-02-07T08:32:25.074Z"
+  }
 ]

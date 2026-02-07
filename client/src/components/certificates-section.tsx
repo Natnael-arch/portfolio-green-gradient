@@ -14,8 +14,23 @@ export function CertificatesSection() {
 
   const { data: certificates, isLoading } = useQuery<Certificate[]>({
     queryKey: ["/api/certificates"],
-    initialData: staticCertificates as Certificate[],
+    initialData: (staticCertificates as any[]).map(c => ({
+      ...c,
+      createdAt: new Date(c.createdAt)
+    })) as Certificate[],
   });
+
+  const sortedCertificates = certificates ? [...certificates].sort((a, b) => {
+    const parseDate = (dateStr: string) => {
+      const months: Record<string, number> = {
+        jan: 0, feb: 1, mar: 2, match: 2, apr: 3, may: 4, jun: 5,
+        jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
+      };
+      const [m, y] = dateStr.toLowerCase().split(" ");
+      return new Date(parseInt(y), months[m] ?? 0).getTime();
+    };
+    return parseDate(b.issueDate) - parseDate(a.issueDate);
+  }) : [];
 
   return (
     <section id="certificates" className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-[#0B2B26]/30">
@@ -49,9 +64,9 @@ export function CertificatesSection() {
               </div>
             ))}
           </div>
-        ) : certificates && certificates.length > 0 ? (
+        ) : sortedCertificates && sortedCertificates.length > 0 ? (
           <div className="space-y-4">
-            {certificates.map((cert, index) => (
+            {sortedCertificates.map((cert, index) => (
               <motion.div
                 key={cert.id}
                 initial={{ opacity: 0, x: -30 }}
