@@ -1,28 +1,13 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
-import { storage, seedDatabase } from "./storage.ts";
-import { insertProjectSchema, insertCertificateSchema } from "../shared/schema.ts";
+import { storage } from "./storage";
+import { insertProjectSchema, insertCertificateSchema } from "@shared/schema";
 import multer from "multer";
-import path from "path";
-import fs from "fs";
-
+import { uploadToPinata } from "./pinata";
 import express from "express";
 
-const storage_config = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    const uploadPath = path.resolve(process.cwd(), "client/public/uploads");
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-    cb(null, uploadPath);
-  },
-  filename: (_req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage: storage_config });
+// Use memory storage to process files before uploading to Pinata
+const upload = multer({ storage: multer.memoryStorage() });
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 
@@ -31,19 +16,22 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
 
-  // Initialize database and seed data
-  await seedDatabase();
-
-  // Serve uploaded files statically
-  app.use("/uploads", express.static(path.resolve(process.cwd(), "client/public/uploads")));
-
   // File Upload API
-  app.post("/api/upload", upload.single("file"), (req: Request, res: Response) => {
-    if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
+  app.post("/api/upload", upload.single("file"), async (req: Request, res: Response) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      console.log(`Uploading file: ${req.file.originalname}`);
+      const ipfsUrl = await uploadToPinata(req.file.buffer, req.file.originalname);
+      console.log(`File uploaded to Pinata: ${ipfsUrl}`);
+
+      res.json({ url: ipfsUrl });
+    } catch (error) {
+      console.error("Upload error:", error);
+      res.status(500).json({ error: "Failed to upload file" });
     }
-    const relativePath = `/uploads/${req.file.filename}`;
-    res.json({ url: relativePath });
   });
 
   // Admin login
@@ -54,7 +42,7 @@ export async function registerRoutes(
       console.log("Login successful.");
       res.json({ success: true });
     } else {
-      console.error(`Login failed: Invalid password.Expected: ${ADMIN_PASSWORD ? "****" : "undefined"} `);
+      console.error(`Login failed: Invalid password.`);
       res.status(401).json({ error: "Invalid password" });
     }
   });

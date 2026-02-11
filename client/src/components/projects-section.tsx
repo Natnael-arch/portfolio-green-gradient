@@ -9,7 +9,6 @@ import staticProjects from "@/data/projects.json";
 export function ProjectsSection() {
   const { data: projects, isLoading } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
-    initialData: staticProjects as Project[],
   });
 
   return (

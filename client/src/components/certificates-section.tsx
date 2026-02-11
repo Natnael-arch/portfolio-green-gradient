@@ -14,10 +14,6 @@ export function CertificatesSection() {
 
   const { data: certificates, isLoading } = useQuery<Certificate[]>({
     queryKey: ["/api/certificates"],
-    initialData: (staticCertificates as any[]).map(c => ({
-      ...c,
-      createdAt: new Date(c.createdAt)
-    })) as Certificate[],
   });
 
   const sortedCertificates = certificates ? [...certificates].sort((a, b) => {
