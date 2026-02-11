@@ -16,6 +16,30 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
 
+  // Health Check API
+  app.get("/api/health", async (_req, res) => {
+    try {
+      const projects = await storage.getProjects();
+      res.json({
+        status: "ok",
+        database: "connected",
+        projectCount: projects.length,
+        env: {
+          DATABASE_URL: !!process.env.DATABASE_URL,
+          PINATA_JWT: !!process.env.PINATA_JWT,
+          ADMIN_PASSWORD: !!process.env.ADMIN_PASSWORD
+        }
+      });
+    } catch (error) {
+      console.error("Health check failed:", error);
+      res.status(500).json({
+        status: "error",
+        message: "Database connection failed",
+        error: String(error)
+      });
+    }
+  });
+
   // File Upload API
   app.post("/api/upload", upload.single("file"), async (req: Request, res: Response) => {
     try {
