@@ -1,7 +1,7 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertProjectSchema, insertCertificateSchema } from "@shared/schema";
+import { insertProjectSchema, insertCertificateSchema } from "../shared/schema";
 import multer from "multer";
 import { uploadToPinata } from "./pinata";
 import express from "express";

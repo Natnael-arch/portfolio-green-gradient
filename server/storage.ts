@@ -5,7 +5,7 @@ import {
   type InsertCertificate,
   projects,
   certificates,
-} from "@shared/schema";
+} from "../shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
