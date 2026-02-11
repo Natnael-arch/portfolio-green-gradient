@@ -26,6 +26,7 @@ export async function registerRoutes(
         projectCount: projects.length,
         env: {
           DATABASE_URL: !!process.env.DATABASE_URL,
+          POSTGRES_URL: !!process.env.POSTGRES_URL,
           PINATA_JWT: !!process.env.PINATA_JWT,
           ADMIN_PASSWORD: !!process.env.ADMIN_PASSWORD
         }
