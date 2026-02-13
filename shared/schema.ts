@@ -12,6 +12,8 @@ export const projects = pgTable("projects", {
   liveLink: text("live_link"),
   techStack: text("tech_stack").array().notNull().default(sql`ARRAY[]::text[]`),
   imageUrl: text("image_url"),
+  contractAddress: text("contract_address"),
+  explorerLink: text("explorer_link"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

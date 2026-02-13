@@ -47,7 +47,7 @@ export function ProjectCard({ project, index, size = "medium" }: ProjectCardProp
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#051F20] via-transparent to-transparent" />
-        
+
         {project.hackathonPlacement && (
           <div className="absolute top-3 right-3">
             <Badge className="gap-1 font-semibold">
@@ -57,16 +57,16 @@ export function ProjectCard({ project, index, size = "medium" }: ProjectCardProp
           </div>
         )}
       </div>
-      
+
       <div className="p-4 md:p-6">
         <h3 className="text-lg md:text-xl font-bold text-[#DAF1DE] mb-2 group-hover:text-[#8EB69B] transition-colors">
           {project.name}
         </h3>
-        
+
         {project.hackathonName && (
           <p className="text-[#8EB69B] text-sm mb-3">{project.hackathonName}</p>
         )}
-        
+
         <div className="flex flex-wrap gap-2 mb-4">
           {project.techStack.slice(0, size === "large" ? 6 : 4).map((tech, i) => (
             <Badge
@@ -82,7 +82,7 @@ export function ProjectCard({ project, index, size = "medium" }: ProjectCardProp
             </Badge>
           )}
         </div>
-        
+
         <div className="flex flex-wrap items-center gap-3">
           {project.liveLink && (
             <a
@@ -110,6 +110,25 @@ export function ProjectCard({ project, index, size = "medium" }: ProjectCardProp
                 <ExternalLink className="w-3 h-3" />
               </Button>
             </a>
+          )}
+          {project.contractAddress && (
+            <div className="flex items-center gap-1 ml-auto">
+              <Badge variant="secondary" className="bg-[#8EB69B]/10 text-[#8EB69B] border-[#8EB69B]/20 gap-1 px-2 py-0.5 pointer-events-none">
+                <ExternalLink className="w-3 h-3" />
+                Verified
+              </Badge>
+              {project.explorerLink && (
+                <a
+                  href={project.explorerLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-[#8EB69B] transition-colors"
+                  aria-label="View on Block Explorer"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
+            </div>
           )}
         </div>
       </div>

@@ -47,6 +47,8 @@ const projectSchema = z.object({
   liveLink: z.string().url().optional().or(z.literal("")),
   techStack: z.string().optional(),
   imageUrl: z.string().url().optional().or(z.literal("")),
+  contractAddress: z.string().optional(),
+  explorerLink: z.string().url().optional().or(z.literal("")),
 });
 
 const certificateSchema = z.object({
@@ -214,6 +216,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       liveLink: "",
       techStack: "",
       imageUrl: "",
+      contractAddress: "",
+      explorerLink: "",
     },
   });
 
@@ -246,6 +250,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             ? data.techStack.split(",").map((s) => s.trim())
             : [],
           imageUrl,
+          contractAddress: data.contractAddress || null,
+          explorerLink: data.explorerLink || null,
         };
         return apiRequest("POST", "/api/projects", payload);
       } finally {
@@ -495,6 +501,42 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         </FormItem>
                       )}
                     />
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={projectForm.control}
+                        name="contractAddress"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Contract Address</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="0x..."
+                                className="bg-[#0B2B26]/50 border-[#235347]/50"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={projectForm.control}
+                        name="explorerLink"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Explorer Link</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="https://etherscan.io/..."
+                                className="bg-[#0B2B26]/50 border-[#235347]/50"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                     <FormField
                       control={projectForm.control}
                       name="techStack"

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export function Header() {
   const [location] = useLocation();
@@ -48,6 +49,14 @@ export function Header() {
             >
               About
             </button>
+            <div className="ml-4">
+              <ConnectButton
+                label="Sign In"
+                showBalance={false}
+                chainStatus="icon"
+                accountStatus="avatar"
+              />
+            </div>
           </nav>
         </div>
       </div>

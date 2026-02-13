@@ -9,7 +9,6 @@ import express from "express";
 // Use memory storage to process files before uploading to Pinata
 const upload = multer({ storage: multer.memoryStorage() });
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -62,12 +61,26 @@ export async function registerRoutes(
   // Admin login
   app.post("/api/admin/login", (req, res) => {
     const { password } = req.body;
+    const adminPasswordEnv = process.env.ADMIN_PASSWORD;
+
     console.log("Login attempt received.");
-    if (password === ADMIN_PASSWORD) {
+    console.log("ADMIN_PASSWORD exists:", !!adminPasswordEnv);
+
+    if (!adminPasswordEnv) {
+      console.error("Login failed: ADMIN_PASSWORD environment variable is missing.");
+      return res.status(500).json({ error: "Server misconfiguration." });
+    }
+
+    const enteredPasswordTrimmed = (password || "").trim();
+    const storedPasswordTrimmed = adminPasswordEnv.trim();
+
+    const isMatch = enteredPasswordTrimmed === storedPasswordTrimmed;
+
+    if (isMatch) {
       console.log("Login successful.");
       res.json({ success: true });
     } else {
-      console.error(`Login failed: Invalid password.`);
+      console.error("Login failed: Invalid password.");
       res.status(401).json({ error: "Invalid password" });
     }
   });
