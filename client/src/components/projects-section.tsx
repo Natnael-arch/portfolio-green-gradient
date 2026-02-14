@@ -4,8 +4,6 @@ import { ProjectCard } from "./project-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Project } from "@shared/schema.ts";
 
-import staticProjects from "@/data/projects.json";
-
 export function ProjectsSection() {
   const { data: projects, isLoading } = useQuery<Project[]>({
     queryKey: ["/api/projects"],

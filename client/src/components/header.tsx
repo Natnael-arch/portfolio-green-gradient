@@ -49,14 +49,6 @@ export function Header() {
             >
               About
             </button>
-            <div className="ml-4">
-              <ConnectButton
-                label="Sign In"
-                showBalance={false}
-                chainStatus="icon"
-                accountStatus="avatar"
-              />
-            </div>
           </nav>
         </div>
       </div>

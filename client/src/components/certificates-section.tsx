@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import { CertificateLightbox } from "./certificate-lightbox";
 import type { Certificate } from "@shared/schema.ts";
 
-import staticCertificates from "@/data/certificates.json";
-
 export function CertificatesSection() {
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
 
