@@ -9,6 +9,8 @@ export function ProjectsSection() {
     queryKey: ["/api/projects"],
   });
 
+  const filteredProjects = projects?.filter(p => p.imageUrl?.includes('pinata.cloud')) || [];
+
   return (
     <section id="projects" className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -43,9 +45,9 @@ export function ProjectsSection() {
               </div>
             ))}
           </div>
-        ) : projects && projects.length > 0 ? (
+        ) : filteredProjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {projects.map((project, index) => (
+            {filteredProjects.map((project, index) => (
               <ProjectCard
                 key={project.id}
                 project={project}

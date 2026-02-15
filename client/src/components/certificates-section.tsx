@@ -14,7 +14,9 @@ export function CertificatesSection() {
     queryKey: ["/api/certificates"],
   });
 
-  const sortedCertificates = certificates ? [...certificates].sort((a, b) => {
+  const filteredCertificates = certificates?.filter(c => c.imageUrl?.includes('pinata.cloud')) || [];
+
+  const sortedCertificates = [...filteredCertificates].sort((a, b) => {
     const parseDate = (dateStr: string) => {
       const months: Record<string, number> = {
         jan: 0, feb: 1, mar: 2, match: 2, apr: 3, may: 4, jun: 5,
@@ -24,7 +26,7 @@ export function CertificatesSection() {
       return new Date(parseInt(y), months[m] ?? 0).getTime();
     };
     return parseDate(b.issueDate) - parseDate(a.issueDate);
-  }) : [];
+  });
 
   return (
     <section id="certificates" className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-[#0B2B26]/30">
